@@ -1,0 +1,316 @@
+<HTML>
+
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Example of export with all differents elements</title>
+    <link rel="icon" href="https://avatars3.githubusercontent.com/u/6544448?s=460" type="image/png">
+
+    <link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="htmltable_export/tableExport.js"></script>
+    <script type="text/javascript" src="htmltable_export/jquery.base64.js"></script>
+    <script type="text/javascript" src="htmltable_export/jspdf/libs/sprintf.js"></script>
+    <script type="text/javascript" src="htmltable_export/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="htmltable_export/jspdf/libs/base64.js"></script>
+    <script type="text/javascript" src="htmltable_export/html2canvas.js"></script>
+
+
+    <script type="text/javascript" src="export.js"></script>
+
+    <style type="text/css">
+        h2 {
+            color: #5BC0DE;
+        }
+
+        #dLabel {
+            margin-top: 20px;
+        }
+
+        .dropdown-menu {
+            width: 90px;
+            min-width: 0;
+            margin: 0;
+        }
+
+        .dc-table-column, .dc-data-table th {
+            text-align: right !important;
+        }
+
+        .y.axis line {
+            fill: none;
+            shape-rendering: crispedges;
+            stroke: #000000;
+            stroke-opacity: 0.2;
+        }
+
+    </style>
+</HEAD>
+
+<BODY>
+
+<div id="pageWrapper" class="container">
+<div class="row col-sm-10 col-md-10 text-center">
+
+    <div class="col-sm-3 col-md-3">
+        <h2 class="sub-header">SVG Image</h2><BR/>
+        <img src="A1c.svg" width="100px"/>
+    </div>
+
+    <div class="col-sm-6 col-md-6">
+        <h2 class="sub-header">HTML Text</h2><BR/>
+        This library uses :
+        <ul>
+            <li>html2canvas --> http://html2canvas.hertzen.com</li>
+            <li>htmltable_export --> https://github.com/kayalshri/tableExport.jquery.plugin</li>
+        </ul>
+        Images from http://publicdomainvectors.org/
+    </div>
+
+    <div class="col-sm-3 col-md-3">
+        <h2 class="sub-header">JPG Image</h2><BR/>
+        <img src="Circles.png" width="100px"/>
+    </div>
+</div>
+
+<div class="row col-sm-10 col-md-10 text-center">
+    <div class="btn-group">
+        <div id="dLabel" class="btn btn-default" data-toggle="dropdown">
+            Export
+            <span class="caret"></span>
+        </div>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'png');"><img src='htmltable_export/icons/png.png' width='24px'> PNG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'jpg');"><img src='htmltable_export/icons/jpg.png' width='24px'> JPG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'gif');"><img src='htmltable_export/icons/gif.png' width='24px'> GIF</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="row col-sm-10 col-md-10 text-center">
+<div class="col-sm-5 col-md-5">
+    <h2 class="sub-header">HTML table</h2><BR/>
+    <table class="table table-hover dc-data-table dc-chart" id="data-table">
+        <thead>
+        <tr class="header">
+            <th><span>Data name</span></th>
+            <th><span>Value</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="dc-table-group info">
+            <td class="dc-table-label" colspan="2">Region1</td>
+        </tr>
+        <tr class="dc-table-row">
+            <td class="dc-table-column _0">Data1</td>
+            <td class="dc-table-column _1">25</td>
+        </tr>
+        <tr class="dc-table-row">
+            <td class="dc-table-column _0">Data2</td>
+            <td class="dc-table-column _1">-1300</td>
+        </tr>
+        </tbody>
+        <tbody>
+        <tr class="dc-table-group info">
+            <td class="dc-table-label" colspan="2">Region2</td>
+        </tr>
+        <tr class="dc-table-row">
+            <td class="dc-table-column _0">Data1</td>
+            <td class="dc-table-column _1">9</td>
+        </tr>
+        <tr class="dc-table-row">
+            <td class="dc-table-column _0">Data2</td>
+            <td class="dc-table-column _1">-210</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-sm-7 col-md-7">
+    <h2 class="sub-header">SVG element</h2><BR/>
+    <svg width="481" height="323">
+        <g transform="translate(35,10)">
+            <g class="y axis">
+                <text transform="rotate(-90)" y="6" dy=".7em" style="text-anchor: end;"/>
+                <g class="tick" style="opacity: 1;" transform="translate(0,238)">
+                    <line x2="446" y2="0" class="zero"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">0.0</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,202.52526456998064)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">1.0k</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,167.05052913996127)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">2.0k</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,131.57579370994188)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">3.0k</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,96.10105827992251)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">4.0k</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,60.62632284990312)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">5.0k</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(0,25.151587419883754)">
+                    <line x2="446" y2="0"/>
+                    <text x="-3" y="0" dy=".32em" style="text-anchor: end;">6.0k</text>
+                </g>
+                <path class="domain" d="M0,0H0V238H0"/>
+            </g>
+            <g class="x axis" transform="translate(0,238)">
+                <g class="tick" style="opacity: 1;" transform="translate(25,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region01</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(69,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region02</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(113,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region03</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(157,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region04</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(201,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region05</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(245,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region06</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(289,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region07</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(333,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region08</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(377,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region09</text>
+                </g>
+                <g class="tick" style="opacity: 1;" transform="translate(421,0)">
+                    <line y2="6" x2="0"/>
+                    <text y="9" x="0" dy=".71em" style="text-anchor: end;" transform="translate(-10,0)rotate(315)">Region10</text>
+                </g>
+                <path class="domain" d="M0,6V0H446V6"/>
+            </g>
+            <g class="groupedBar" transform="translate(5,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="238" y="0" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="96.3493814279326" y="141.6506185720674" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="66.62155313757637" y="171.37844686242363" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(49,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="9.152481740945007" y="228.847518259055" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="7.378744969444028" y="230.62125503055597" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="36.57445222834997" y="201.42554777165003" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(93,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="3.476524072141899" y="234.5234759278581" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="0.7804441794604315" y="237.21955582053957" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="4.505291399612474" y="233.49470860038753" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(137,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="69.7788045908481" y="168.2211954091519" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="6.988522879713827" y="231.01147712028617" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="0.7094947086003742" y="237.29050529139963" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(181,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="42.17946042629302" y="195.82053957370698" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="8.655835444924719" y="229.34416455507528" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="0.1418989417200862" y="237.8581010582799" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(225,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="64.17379639290505" y="173.82620360709495" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="10.358622745565668" y="227.64137725443433" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="5.037412431062762" y="232.96258756893724" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(269,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="15.573408853778517" y="222.42659114622148" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="6.811149202563712" y="231.1888507974363" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="3.4410493367118704" y="234.55895066328813" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(313,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="8.620360709494719" y="229.37963929050528" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="30.86301982411686" y="207.13698017588314" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="10.394097480995669" y="227.60590251900433" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(357,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="15.89268147264869" y="222.1073185273513" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="2.8379788344015537" y="235.16202116559845" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="1.560888358920863" y="236.43911164107914" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="groupedBar" transform="translate(401,0)">
+                <rect style="fill: rgb(85, 85, 85);" height="9.152481740945007" y="228.847518259055" x="1" width="13"/>
+                <path stroke-width="2" stroke="#3c3c3c" d="false"/>
+                <rect style="fill: rgb(102, 205, 170);" height="21.675063347741855" y="216.32493665225815" x="14" width="13"/>
+                <path stroke-width="2" stroke="#479077" d="false"/>
+                <rect style="fill: rgb(255, 0, 0);" height="4.221493516172302" y="233.7785064838277" x="27" width="13"/>
+                <path stroke-width="2" stroke="#b30000" d="false"/>
+            </g>
+            <g class="legend" transform="translate(0,0)">
+                <rect x="428" width="10" height="10" style="fill: rgb(85, 85, 85); stroke: rgb(44, 53, 55);"/>
+                <text x="422" y="9" dy="0" style="text-anchor: end;">Data1</text>
+            </g>
+            <g class="legend" transform="translate(0,15)">
+                <rect x="428" width="10" height="10" style="fill: rgb(102, 205, 170); stroke: rgb(44, 53, 55);"/>
+                <text x="422" y="9" dy="0" style="text-anchor: end;">Data2</text>
+            </g>
+            <g class="legend" transform="translate(0,30)">
+                <rect x="428" width="10" height="10" style="fill: rgb(255, 0, 0); stroke: rgb(44, 53, 55);"/>
+                <text x="422" y="9" dy="0" style="text-anchor: end;">Data3</text>
+            </g>
+        </g>
+    </svg>
+</div>
+
+
+</div>
+</div>
+
+<script type="text/javascript">
+</script>
+</BODY>
+</HTML>
+
