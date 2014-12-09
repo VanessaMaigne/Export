@@ -12,15 +12,27 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="htmltable_export/tableExport.js"></script>
-    <script type="text/javascript" src="htmltable_export/jquery.base64.js"></script>
-    <script type="text/javascript" src="htmltable_export/jspdf/libs/sprintf.js"></script>
-    <script type="text/javascript" src="htmltable_export/jspdf/jspdf.js"></script>
-    <script type="text/javascript" src="htmltable_export/jspdf/libs/base64.js"></script>
-    <script type="text/javascript" src="htmltable_export/html2canvas.js"></script>
+    <!--<script type="text/javascript" src="htmltable_export/tableExport.js"></script>-->
+    <!--<script type="text/javascript" src="htmltable_export/jquery.base64.js"></script>-->
+    <!--<script type="text/javascript" src="htmltable_export/jspdf/libs/sprintf.js"></script>-->
+    <!--<script type="text/javascript" src="htmltable_export/jspdf/jspdf.js"></script>-->
+    <!--<script type="text/javascript" src="htmltable_export/jspdf/libs/base64.js"></script>-->
+    <!--<script type="text/javascript" src="htmltable_export/html2canvas.js"></script>-->
+    <script type="text/javascript" src="canvg.js"></script>
+    <script type="text/javascript" src="rgbcolor.js"></script>
 
+    <!-- Calls only for Gist. Keep files in your repositories -->
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/tableExport.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/jquery.base64.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/jspdf/libs/sprintf.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/jspdf/libs/base64.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/kayalshri/tableExport.jquery.plugin/master/html2canvas.js"></script>
 
-    <script type="text/javascript" src="export.js"></script>
+    <!--<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>-->
+    <!--<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>-->
+    <script type="text/javascript" src="exportAll.js"></script>
+
 
     <style type="text/css">
         h2 {
@@ -53,25 +65,27 @@
 
 <BODY>
 
-<div id="pageWrapper" class="container">
-<div class="row col-sm-12 col-md-12 text-center">
+<div id="containerDiv" class="container-fluid">
 
-    <div class="col-sm-3 col-md-3">
+<div class="row col-sm-12 col-md-12">
+
+    <div class="col-sm-3 col-md-3 text-center">
         <h2 class="sub-header">SVG Image</h2><BR/>
-        <img src="A1c.svg" width="100px"/>
+        <img src="Home-web-icon.svg" id="bob" width="100px" height="100px"/>
+        <!--<img src="Home-web-icon.svg" width="100px" height="100px"/>-->
     </div>
 
     <div class="col-sm-6 col-md-6">
-        <h2 class="sub-header">HTML Text</h2><BR/>
+        <h2 class="sub-header text-center">HTML Text</h2><BR/>
         This library uses :
         <ul>
             <li>html2canvas --> http://html2canvas.hertzen.com</li>
             <li>htmltable_export --> https://github.com/kayalshri/tableExport.jquery.plugin</li>
         </ul>
-        Images from http://publicdomainvectors.org/
+        Images from http://fr.freepik.com
     </div>
 
-    <div class="col-sm-3 col-md-3">
+    <div class="col-sm-3 col-md-3 text-center">
         <h2 class="sub-header">JPG Image</h2><BR/>
         <img src="Circles.png" width="100px"/>
     </div>
@@ -84,9 +98,9 @@
             <span class="caret"></span>
         </div>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'png');"><img src='htmltable_export/icons/png.png' width='24px'> PNG</a></li>
-            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'jpg');"><img src='htmltable_export/icons/jpg.png' width='24px'> JPG</a></li>
-            <li><a href="#" onClick="javascript:exportAll('exportDiv', 'gif');"><img src='htmltable_export/icons/gif.png' width='24px'> GIF</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'png');"><img src='htmltable_export/icons/png.png' width='24px'> PNG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'jpg');"><img src='htmltable_export/icons/jpg.png' width='24px'> JPG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'gif');"><img src='htmltable_export/icons/gif.png' width='24px'> GIF</a></li>
         </ul>
     </div>
 </div>
@@ -304,13 +318,211 @@
         </g>
     </svg>
 </div>
-
-
 </div>
+
+
+<!--Github link-->
+<div style="position: absolute; top: 0; right: 0;">
+    <a href="https://github.com/VanessaMaigne/Export" target="_blank">
+        <img src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+</div>
+
 </div>
 
 <script type="text/javascript">
+
+    //function convertImageToCanvas( image )
+    //{
+    //    var canvas = document.createElement( "canvas" );
+    //    canvas.width = image.width();
+    //    canvas.height = image.height();
+    //    canvas.getContext( "2d" ).drawImage( image, 0, 0 );
+    //
+    //    return canvas;
+    //}
+
+    //        convertImageToCanvas( "bob" );
+
+
+    // get Canvas Element
+    //    var myCanvas = document.getElementById( 'canvasid' );
+    //    // get 2D context
+    //    var myCanvasContext = myCanvas.getContext( '2d' );
+    //    // Load up our image.
+    //    var source = new Image();
+    //    source.src = 'Home-web-icon.svg';
+    //    // Render our SVG image to the canvas once it loads.
+    //    source.onload = function()
+    //    {
+    //        myCanvasContext.drawImage( source, 0, 0, 200, 200 );
+    //    };
+
+
+    //var sampleImage = $( "#bob" );
+    //var bib = convertImageToCanvas( sampleImage );
+    //document.getElementById( "canvasHolder" ).appendChild( bib );
+
+
+    //    function importSVG( sourceSVG, targetCanvas )
+    //    {
+    //        // https://developer.mozilla.org/en/XMLSerializer
+    //        var svg_xml = (new XMLSerializer()).serializeToString( sourceSVG );
+    //        var ctx = targetCanvas.getContext( '2d' );
+    //
+    //        // this is just a JavaScript (HTML) image
+    //        var img = new Image();
+    //        // http://en.wikipedia.org/wiki/SVG#Native_support
+    //        // https://developer.mozilla.org/en/DOM/window.btoa
+    //        img.src = "data:image/svg+xml;base64," + btoa( svg_xml );
+    //
+    //        img.onload = function()
+    //        {
+    //            // after this, Canvas’ origin-clean is DIRTY
+    //            ctx.drawImage( img, 0, 0 );
+    //        }
+    //    }
+
+
+    /**
+     * Converts an SVG element to an IMG element with the same dimensions
+     * and same visual content. The IMG src will be a base64-encoded image.
+     * Works in Webkit and Firefox (not IE).
+     */
+    //    $.fn.toImage = function()
+    //    {
+    //        $( this ).each( function()
+    //        {
+    //            var svg$ = $( this );
+    //            var width = svg$.width();
+    //            var height = svg$.height();
+    //
+    //            // Create a blob from the SVG data
+    //            var svgData = new XMLSerializer().serializeToString( this );
+    //            var blob = new Blob( [svgData], { type: "image/svg+xml;charset=utf-8" } );
+    //
+    //            // Get the blob's URL
+    //            var domUrl = self.URL || self.webkitURL || self;
+    //            var blobUrl = domUrl.createObjectURL( blob );
+    //
+    //            // Load the blob into a temporary image
+    //            $( '<img />' )
+    //                    .width( width )
+    //                    .height( height )
+    //                    .on( 'load', function()
+    //            {
+    //                try
+    //                {
+    //                    var canvas = document.createElement( 'canvas' );
+    //                    canvas.width = width;
+    //                    canvas.height = height;
+    //                    var ctx = canvas.getContext( '2d' );
+    //
+    //                    // Start with white background (optional; transparent otherwise)
+    //                    ctx.fillStyle = '#fff';
+    //                    ctx.fillRect( 0, 0, width, height );
+    //
+    //                    // Draw SVG image on canvas
+    //                    ctx.drawImage( this, 0, 0 );
+    //
+    //                    // Replace SVG tag with the canvas' image
+    //                    svg$.replaceWith( $( '<img />' ).attr( {
+    //                        src: canvas.toDataURL(),
+    //                        width: width,
+    //                        height: height
+    //                    } ) );
+    //                }
+    //                finally
+    //                {
+    //                    domUrl.revokeObjectURL( blobUrl );
+    //                }
+    //            } )
+    //                    .attr( 'src', blobUrl );
+    //        } );
+    //    };
+
+    //    $( 'object' ).toImage();
+    //    importSVG( $( "#bob" ), $( "#bobCanvas" ) );
+
+    exportAll( 'containerDiv', 'png' );
+
+    function exportAll( exportDivId, fileType )
+    {
+        var dt = new Date();
+        var currentTime = dt.getFullYear() + "" + (dt.getMonth() + 1) + "" + dt.getDate() + "_" + dt.getHours() + "" + dt.getMinutes() + "" + dt.getSeconds();
+        var containerExport = "GCAExportImage_" + currentTime;
+        $( "body" ).append( '<div id="' + containerExport + '"></div>' );
+
+        $( "#" + containerExport ).empty();
+//        $( "#" + exportDivId ).fadeOut( 1000 );
+        $( "#" + containerExport ).append( $( "#" + exportDivId ).clone() );
+
+//        // File name with date
+//        var exportDate = $.datepicker.formatDate( 'yy_mm_dd', new Date() );
+//        var fileName = "GCAExportImage_" + exportDate;
+//
+//        // Export
+        $( '#' + containerExport ).exportAll( {
+            sourceDivId:containerExport,
+//            callbackBeforeCanvg:{name: callbackForExportAllBeforeCanvg, arguments: exportDivId},
+//            callbackOnRendered: {name: callbackForExportAllOnRendered, arguments: exportDivId},
+            fileName: containerExport,
+            fileType: fileType,
+            windowTitle: "Export window",
+            listStyleToGet:["fill", "stroke", "opacity", "fill-opacity", "shape-rendering", "stroke-opacity",
+                "font", "font-size", "font-weight", "font-family", "color",
+                "float", "height", "width"]
+        } );
+    }
+
+    function callbackForExportAllBeforeCanvg( exportDivId )
+    {
+        $( "#" + exportDivId + " .leftTools, #" + exportDivId + " .comment, #" + exportDivId + " #regionSelect, #" + exportDivId + " #resetFlux" ).remove();
+        $( "#" + exportDivId + " #resetMap, #" + exportDivId + " #synthesis" ).remove();
+        $( "#" + exportDivId + " #hiddenDiv, #" + exportDivId + " #dataDiv, #" + exportDivId + " .synthesisDiv" ).remove();
+
+        // Add GCA logo
+        $( "#" + exportDivId ).append( "<div class='exportLogo'><img src='img/GCA_logo_white.png' width='150px'></div>" );
+    }
+
+    function callbackForExportAllOnRendered( exportDivId )
+    {
+        $( "#" + exportDivId ).empty();
+        $( "#sourceWrapper" ).fadeIn();
+    }
+
+    <!-- ********** EXPORT SYNTHESIS ************ -->
+    function exportSynthesis( exportDivId, fileType )
+    {
+        // File name with date
+        var exportDate = $.datepicker.formatDate( 'yy_mm_dd', new Date() );
+        var fileName = "GCAExportImage_" + exportDate;
+
+        // Export
+        $( '#' + exportDivId ).exportAll( {
+            callbackBeforeCanvg:{name: callbackForExportSynthesisBeforeCanvg, arguments:true},
+            callbackOnRendered: {name: callbackForExportSynthesisBeforeCanvg, arguments: false},
+            fileName: fileName,
+            fileType: fileType,
+            windowTitle: i18n.t( "label.exportSynthesisTitle" )
+        } );
+    }
+
+    function callbackForExportSynthesisBeforeCanvg( isToAdd )
+    {
+        // Add GCA logo
+        if( isToAdd )
+        {
+            var left = $( "#synthesisDivData" ).width() - 170;
+            $( "#dynamicAreasForImageFluxForSynthesis" ).append( "<div class='exportLogo' style='margin-top:-10px; margin-left:" + left + "px;'><img src='img/GCA_logo.png' width='150px'></div>" );
+        }
+        else
+            $( "#dynamicAreasForImageFluxForSynthesis .exportLogo" ).remove();
+    }
+
 </script>
+
 </BODY>
 </HTML>
 
