@@ -47,8 +47,10 @@
             if( sourceContainerId && targetContainerId )
                 copySelectedCss( $( "#" + sourceContainerId ), $( "#" + targetContainerId ), options.listStyleToGet );
 
-            if( options.callbackBeforeCanvg )
+            if( options.callbackBeforeCanvg && options.callbackBeforeCanvg.arguments )
                 options.callbackBeforeCanvg.name( options.callbackBeforeCanvg.arguments, targetContainerId );
+            else if( options.callbackBeforeCanvg )
+                options.callbackBeforeCanvg.name( targetContainerId );
 
             // Transform all svg into canvas
             canvg( null, null, null, targetContainerId );
@@ -126,8 +128,10 @@
 //            useCORS: true,
             onrendered: function( canvas )
             {
-                if( options.callbackOnRendered )
+                if( options.callbackOnRendered && options.callbackOnRendered.arguments )
                     options.callbackOnRendered.name( options.callbackOnRendered.arguments, targetContainerId );
+                else if( options.callbackOnRendered )
+                    options.callbackOnRendered.name( targetContainerId );
 
                 var data = canvas.toDataURL( "image/" + options.fileType );
 
