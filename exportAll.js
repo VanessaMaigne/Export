@@ -21,22 +21,24 @@
 (function( $ )
 {
     var element = false;
+    var options = false;
+
     $.fn.extend( {
-        exportAll: function( options )
+        exportAll: function( optionsArgument )
         {
             var defaults = {
                 consoleLog:'true'
             };
 
-            options = $.extend( defaults, options );
+            options = $.extend( defaults, optionsArgument );
             element = this;
 
             // Copy styles from source to export
-//            if( options.sourceDivId )
-//                copySelectedCss( $( "#" + options.sourceDivId ), element, options.listStyleToGet );
+            if( options.sourceDivId )
+                copySelectedCss( $( "#" + options.sourceDivId ), element, options.listStyleToGet );
 
-//            if( options.callbackBeforeCanvg )
-//                options.callbackBeforeCanvg.name( options.callbackBeforeCanvg.arguments );
+            if( options.callbackBeforeCanvg )
+                options.callbackBeforeCanvg.name( options.callbackBeforeCanvg.arguments );
 
             // Transform all svg into canvas
             canvg( null, null, null, element[0].id );
@@ -50,12 +52,15 @@
 
             $.each( imagesToConvert, function( i, d )
             {
-                var callbackAfterConvert = (i == imageToConvert.size()) ? html2CanvasLaunch : false;
-                convertImgToCanvas( options.sourceDivId, d.id, callbackAfterConvert );
+                var callbackAfterConvert = (i == imagesToConvert.length - 1) ? html2CanvasLaunch : false;
+                convertImgToCanvas( options.sourceDivId, d, callbackAfterConvert );
             } );
         }
     } );
 
+    /**
+     * This method launch the html2canvas function to create the final image with all transformed elements
+     */
     function html2CanvasLaunch()
     {
         html2canvas( $( element ), {
@@ -66,16 +71,6 @@
                 if( options.callbackOnRendered )
                     options.callbackOnRendered.name( options.callbackOnRendered.arguments );
 
-//                    var img = canvas.toDataURL("image/png");
-//                    $( options.aElement ).attr( "href", img );
-//                    if($( options.aElement ).attr( "download") != undefined)
-//                        return;
-//                    $( options.aElement ).attr( "download", "test.png");
-//                    $( options.aElement ).removeAttr( "href");
-//                    $( options.aElement ).removeAttr("download");
-
-//                    eventFire( a, "click");
-
                 var data = canvas.toDataURL( "image/" + options.fileType );
 
                 var img = document.createElement( 'img' );
@@ -84,20 +79,26 @@
 
                 // download doesn't work with Safari, IE or Opera.
                 // http://caniuse.com/download
-//                    var a = document.createElement( 'a' );
-//                    a.setAttribute( "download", options.fileName + "." + options.fileType );
-//                    a.setAttribute( "href", data );
-//                    a.appendChild( img );
+                var a = document.createElement( 'a' );
+                a.setAttribute( "download", options.fileName + "." + options.fileType );
+                a.setAttribute( "href", data );
+                a.appendChild( img );
 
                 document.body.appendChild( img );
-//                    var w = open();
-//                    w.document.title = options.windowTitle ? options.windowTitle : "Exported image";
-//                    w.document.body.appendChild( a );
-//                    w.document.body.appendChild( img );
+
+//                var w = open();
+//                w.document.title = options.windowTitle ? options.windowTitle : "Exported image";
+//                w.document.body.appendChild( a );
             }
         } );
     }
 
+    /**
+     * This method convert an image into a canvas and launch the callback after the load of this image
+     * @param containerExportId : div id of the image container
+     * @param imageId : id of the image
+     * @param callbackAfterConvert : function to launch at the end of the load of the last image
+     */
     function convertImgToCanvas( containerExportId, imageId, callbackAfterConvert )
     {
         if( !imageId )
@@ -123,26 +124,10 @@
         {
             myCanvasContext.drawImage( source, 0, 0, myCanvas.width, myCanvas.height );
             $( fullImageId ).remove();
-            console.log( "fin" );
             if( callbackAfterConvert )
                 callbackAfterConvert();
         };
-        console.log( "fin2" );
     }
-
-
-//    // get Canvas Element
-//    var myCanvas = document.getElementById( 'canvasid' );
-//    // get 2D context
-//    var myCanvasContext = myCanvas.getContext( '2d' );
-//    // Load up our image.
-//    var source = new Image();
-//    source.src = 'Home-web-icon.svg';
-//    // Render our SVG image to the canvas once it loads.
-//    source.onload = function()
-//    {
-//        myCanvasContext.drawImage( source, 0, 0, 200, 200 );
-//    };
 
 
     /**
@@ -173,4 +158,48 @@
 //            el.dispatchEvent(evObj);
 //        }
 //    }
+
+
+    //http://stackoverflow.com/questions/754607/can-jquery-get-all-css-styles-associated-with-an-element
+    /*
+     * getStyleObject Plugin for jQuery JavaScript Library
+     * From: http://upshots.org/?p=112
+     */
+    $.fn.getStyleObject = function( listStyleToGet )
+    {
+        var dom = this.get( 0 );
+        if( !dom )
+            return;
+
+        var style;
+        var returns = {};
+        if( window.getComputedStyle )
+        {
+            var camelize = function( a, b )
+            {
+                return b.toUpperCase();
+            };
+            style = window.getComputedStyle( dom, null );
+            for( var i = 0, l = style.length; i < l; i++ )
+            {
+                var prop = style[i];
+                if( !listStyleToGet || listStyleToGet.indexOf( prop ) != -1 )
+                {
+                    var camel = prop.replace( /\-([a-z])/g, camelize );
+                    returns[camel] = style.getPropertyValue( prop );
+                }
+            }
+            return returns;
+        }
+
+        if( style = dom.currentStyle )
+        {
+            for( var prop in style )
+                returns[prop] = style[prop];
+
+            return returns;
+        }
+
+        return this.css();
+    }
 })( jQuery );
