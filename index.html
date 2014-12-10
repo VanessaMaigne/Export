@@ -45,7 +45,7 @@
         }
 
         .dropdown-menu {
-            width: 90px;
+            width: 79px;
             min-width: 0;
             margin: 0;
         }
@@ -83,7 +83,8 @@
             <li>htmltable_export --> https://github.com/kayalshri/tableExport.jquery.plugin</li>
         </ul>
         Images from http://fr.freepik.com<BR/>
-        Don't forget to check your browser allow popup !
+        Don't forget to check your browser allow popup !<BR/>
+        Works for Firefox and Safari, problem with Chrome to load files (html2canvas) from external sites. So please load all files in yours local repository by using github.
     </div>
 
     <div class="col-sm-3 col-md-3 text-center">
@@ -99,9 +100,9 @@
             <span class="caret"></span>
         </div>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'png');"><img src='htmltable_export/icons/png.png' width='24px'> PNG</a></li>
-            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'jpg');"><img src='htmltable_export/icons/jpg.png' width='24px'> JPG</a></li>
-            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'gif');"><img src='htmltable_export/icons/gif.png' width='24px'> GIF</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'png');">PNG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'jpg');">JPG</a></li>
+            <li><a href="#" onClick="javascript:exportAll('containerDiv', 'gif');">GIF</a></li>
         </ul>
     </div>
 </div>
