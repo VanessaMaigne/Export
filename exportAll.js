@@ -7,12 +7,13 @@
  *
  * @mandatory aElement : DOM "a" element, used to launch the export.
  * We clone the element into a targetContainer and copy css styles (sourceDiv and targetDiv MUST HAVE the same childrens, that's why we need to launch callbackBeforeCanvg AFTER the css copy)
+ * @mandatory fileName
+ * @mandatory fileType
  * @optional listStyleToGet : list of styles to keep in the export elements
  * @optional callbackBeforeCanvg : function to call before the transformation of all svg elements to canvas
  * @optional callbackOnRendered : function to call before the window.open
  * @optional windowTitle : title for the opened tab
- * @mandatory fileName
- * @mandatory fileType
+ * @optional targetExportContainerId : container id for the target container (if we need to add some css styles by example)
  *
  * http://jqueryfiledownload.apphb.com/
  * http://stackoverflow.com/questions/283956/is-there-any-way-to-specify-a-suggested-filename-when-using-data-uri
@@ -24,6 +25,7 @@
     var options = false;
     var sourceContainerId = false;
     var targetContainerId = false;
+    var targetExportContainerId = "body";
 
     $.fn.extend( {
         exportAll: function( optionsArgument )
@@ -33,6 +35,8 @@
             };
 
             options = $.extend( defaults, optionsArgument );
+            if( options.targetExportContainerId )
+                targetExportContainerId = "#" + options.targetExportContainerId;
             element = this;
             sourceContainerId = this[0].id;
 
@@ -70,7 +74,7 @@
         var targetContainer = $( '<div id="' + targetContainerId + '"></div>' );
         targetContainer.width( $( "#" + sourceContainerId ).width() );
         targetContainer.height( $( "#" + sourceContainerId ).height() );
-        $( "body" ).append( targetContainer );
+        $( targetExportContainerId ).append( targetContainer );
 
         $( "#" + targetContainerId ).empty();
         $( "#" + targetContainerId ).append( $( "#" + sourceContainerId ).contents().clone() );
