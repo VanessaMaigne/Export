@@ -1,12 +1,12 @@
 /**
- * exportAll _ version 1.0
+ * exportAll _ version 2.0
  * ##################################################
  *   Created by vmaigne@gmail.com _ august 2014
  * ##################################################
  * This library exports your HTML page content into PNG, JPG & GIF formats
  *
- * @mandatory aElement : DOM "a" element, used to launch the export
- * @optional sourceDivId : source div used to get the styles (sourceDiv and targetDiv MUST HAVE the same childrens)
+ * @mandatory aElement : DOM "a" element, used to launch the export.
+ * We clone the element into a targetContainer and copy css styles (sourceDiv and targetDiv MUST HAVE the same childrens, that's why we need to launch callbackBeforeCanvg AFTER the css copy)
  * @optional listStyleToGet : list of styles to keep in the export elements
  * @optional callbackBeforeCanvg : function to call before the transformation of all svg elements to canvas
  * @optional callbackOnRendered : function to call before the window.open
@@ -22,6 +22,8 @@
 {
     var element = false;
     var options = false;
+    var sourceContainerId = false;
+    var targetContainerId = false;
 
     $.fn.extend( {
         exportAll: function( optionsArgument )
@@ -32,46 +34,101 @@
 
             options = $.extend( defaults, optionsArgument );
             element = this;
+            sourceContainerId = this[0].id;
+
+            // Create a new container for export and clone source content
+            createExportContainerAndClone();
 
             // Copy styles from source to export
-            if( options.sourceDivId )
-                copySelectedCss( $( "#" + options.sourceDivId ), element, options.listStyleToGet );
+            if( sourceContainerId && targetContainerId )
+                copySelectedCss( $( "#" + sourceContainerId ), $( "#" + targetContainerId ), options.listStyleToGet );
 
             if( options.callbackBeforeCanvg )
-                options.callbackBeforeCanvg.name( options.callbackBeforeCanvg.arguments );
+                options.callbackBeforeCanvg.name( options.callbackBeforeCanvg.arguments, targetContainerId );
 
             // Transform all svg into canvas
-            canvg( null, null, null, element[0].id );
+            canvg( null, null, null, targetContainerId );
 
-            // Transform img with .svg file into canvas
-            var imagesToConvert = $.map( $( "#" + options.sourceDivId + " img" ), function( d )
+            // Get only .svg images
+            var imagesToConvert = $.map( $( "#" + targetContainerId + " img" ), function( d )
             {
                 if( d.src.indexOf( ".svg" ) != -1 )
                     return d;
             } );
 
-            $.each( imagesToConvert, function( i, d )
-            {
-                var callbackAfterConvert = (i == imagesToConvert.length - 1) ? html2CanvasLaunch : false;
-                convertImgToCanvas( options.sourceDivId, d.id, callbackAfterConvert );
-            } );
+            // Transform img with .svg file into canvas
+            // Use recursive function to wait for the loading of each image before to launch the callback at the last image
+            convertImgToCanvas( imagesToConvert, 0, html2CanvasLaunch );
         }
     } );
+
+    function createExportContainerAndClone()
+    {
+        var dt = new Date();
+        var currentTime = dt.getFullYear() + "" + (dt.getMonth() + 1) + "" + dt.getDate() + "_" + dt.getHours() + "" + dt.getMinutes() + "" + dt.getSeconds();
+        targetContainerId = "exportContainer_" + currentTime;
+        var targetContainer = $( '<div id="' + targetContainerId + '"></div>' );
+        targetContainer.width( $( "#" + sourceContainerId ).width() );
+        targetContainer.height( $( "#" + sourceContainerId ).height() );
+        $( "body" ).append( targetContainer );
+
+        $( "#" + targetContainerId ).empty();
+        $( "#" + targetContainerId ).append( $( "#" + sourceContainerId ).contents().clone() );
+    }
+
+    /**
+     * This method convert an image into a canvas and launch the callback after the load of this image
+     * @param imagesToConvert : array of svg images to convert
+     * @param index : index of the array
+     * @param callbackAfterConvert : function to launch at the end of the load of the last image
+     */
+    function convertImgToCanvas( imagesToConvert, index, callbackAfterConvert )
+    {
+        if( !imagesToConvert || !imagesToConvert[index] || index > imagesToConvert.length )
+            return;
+
+        var image = imagesToConvert[index];
+
+        // Load up our image.
+        var source = new Image();
+        source.src = $( image ).attr( "src" );
+
+        // Render our SVG image to the canvas once it loads.
+        source.onload = function()
+        {
+            // create Canvas Element
+            var myCanvas = document.createElement( "canvas" );
+            myCanvas.width = $( image ).width();
+            myCanvas.height = $( image ).height();
+            $( image ).parent().append( myCanvas );
+
+            // get 2D context
+            myCanvas.getContext( '2d' ).drawImage( source, 0, 0, myCanvas.width, myCanvas.height );
+
+            $( image ).remove();
+            index++;
+            if( callbackAfterConvert && index == imagesToConvert.length )
+                callbackAfterConvert();
+            convertImgToCanvas( imagesToConvert, index, callbackAfterConvert );
+        };
+    }
 
     /**
      * This method launch the html2canvas function to create the final image with all transformed elements
      */
     function html2CanvasLaunch()
     {
-        html2canvas( $( element ), {
-//                useCORS: true,
+        html2canvas( $( "#" + targetContainerId ), {
+//            useCORS: true,
             onrendered: function( canvas )
             {
-
                 if( options.callbackOnRendered )
-                    options.callbackOnRendered.name( options.callbackOnRendered.arguments );
+                    options.callbackOnRendered.name( options.callbackOnRendered.arguments, targetContainerId );
 
                 var data = canvas.toDataURL( "image/" + options.fileType );
+
+                // Remove target export container
+                $( "#" + targetContainerId ).remove();
 
                 var img = document.createElement( 'img' );
                 img.src = data;
@@ -84,51 +141,12 @@
                 a.setAttribute( "href", data );
                 a.appendChild( img );
 
-                document.body.appendChild( img );
-
-//                var w = open();
-//                w.document.title = options.windowTitle ? options.windowTitle : "Exported image";
-//                w.document.body.appendChild( a );
+                var w = open();
+                w.document.title = options.windowTitle ? options.windowTitle : "Exported image";
+                w.document.body.appendChild( a );
             }
         } );
     }
-
-    /**
-     * This method convert an image into a canvas and launch the callback after the load of this image
-     * @param containerExportId : div id of the image container
-     * @param imageId : id of the image
-     * @param callbackAfterConvert : function to launch at the end of the load of the last image
-     */
-    function convertImgToCanvas( containerExportId, imageId, callbackAfterConvert )
-    {
-        if( !imageId )
-            return;
-
-        var fullImageId = "#" + containerExportId + " #" + imageId;
-        // create Canvas Element
-        var myCanvas = document.createElement( "canvas" );
-        var dt = new Date();
-        var currentTime = dt.getFullYear() + "" + (dt.getMonth() + 1) + "" + dt.getDate() + "_" + dt.getHours() + "" + dt.getMinutes() + "" + dt.getSeconds();
-        myCanvas.id = $( fullImageId ).attr( "id" ) + "_canvas_" + currentTime;
-        myCanvas.width = $( fullImageId ).width();
-        myCanvas.height = $( fullImageId ).height();
-        $( fullImageId ).parent().append( myCanvas );
-
-        // get 2D context
-        var myCanvasContext = myCanvas.getContext( '2d' );
-        // Load up our image.
-        var source = new Image();
-        source.src = $( fullImageId ).attr( "src" );
-        // Render our SVG image to the canvas once it loads.
-        source.onload = function()
-        {
-            myCanvasContext.drawImage( source, 0, 0, myCanvas.width, myCanvas.height );
-            $( fullImageId ).remove();
-            if( callbackAfterConvert )
-                callbackAfterConvert();
-        };
-    }
-
 
     /**
      * This method copy some wanted styles from one div to another one
